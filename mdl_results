@@ -1,0 +1,80 @@
+**input**
+# Another cell
+
+# Actual placement results
+actual = df["Placed"].to_numpy()
+
+# Candidate Rule 1
+rule1_prediction = (
+    df["Study_Hours"] >= 6
+).astype(int).to_numpy()
+
+# Candidate Rule 2
+rule2_prediction = (
+    df["Attendance"] >= 70
+).astype(int).to_numpy()
+
+# Candidate Rule 3
+rule3_prediction = (
+    (df["Study_Hours"] >= 5) &
+    (df["Attendance"] >= 65) &
+    (df["Project_Done"] == 1)
+).astype(int).to_numpy()
+
+# Count prediction errors
+rule1_errors = np.sum(rule1_prediction != actual)
+rule2_errors = np.sum(rule2_prediction != actual)
+rule3_errors = np.sum(rule3_prediction != actual)
+
+# Illustrative description lengths in bits
+rule1_complexity = 3
+rule2_complexity = 3
+rule3_complexity = 7
+
+rule1_mdl = rule1_complexity + rule1_errors
+rule2_mdl = rule2_complexity + rule2_errors
+rule3_mdl = rule3_complexity + rule3_errors
+
+mdl_results = pd.DataFrame({
+    "Rule": [
+        "Study hours >= 6",
+        "Attendance >= 70",
+        "Hours >= 5, Attendance >= 65 and Project = Yes"
+    ],
+    "Rule_Complexity": [
+        rule1_complexity,
+        rule2_complexity,
+        rule3_complexity
+    ],
+    "Errors": [
+        rule1_errors,
+        rule2_errors,
+        rule3_errors
+    ],
+    "MDL_Score": [
+        rule1_mdl,
+        rule2_mdl,
+        rule3_mdl
+    ]
+})
+
+print(mdl_results)
+
+best_index = mdl_results["MDL_Score"].idxmin()
+
+print("\nBest rule selected by MDL:")
+print(mdl_results.loc[best_index, "Rule"])
+
+**output**
+  Rule  Rule_Complexity  Errors  \
+0                                Study hours >= 6                3       1   
+1                                Attendance >= 70                3       1   
+2  Hours >= 5, Attendance >= 65 and Project = Yes                7       1   
+
+   MDL_Score  
+0          4  
+1          4  
+2          8  
+
+Best rule selected by MDL:
+Study hours >= 6
