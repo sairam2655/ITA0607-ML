@@ -1,0 +1,51 @@
+**input**
+# Another cell
+new_student = {
+    "Study_Hours": 6,
+    "Attendance": 72,
+    "Project_Done": 1
+}
+
+# Prediction from each rule
+h1 = int(new_student["Study_Hours"] >= 6)
+
+h2 = int(new_student["Attendance"] >= 70)
+
+h3 = int(
+    new_student["Study_Hours"] >= 5 and
+    new_student["Attendance"] >= 65 and
+    new_student["Project_Done"] == 1
+)
+
+hypothesis_predictions = np.array([h1, h2, h3])
+
+# Weighted probability for placement
+placed_probability = np.sum(
+    weights * hypothesis_predictions
+)
+
+not_placed_probability = np.sum(
+    weights * (1 - hypothesis_predictions)
+)
+
+print("\nPredictions from three rules:")
+print(hypothesis_predictions)
+
+print("\nPlacement probability:",
+      round(placed_probability, 3))
+
+print("Not-placement probability:",
+      round(not_placed_probability, 3))
+
+if placed_probability > not_placed_probability:
+    print("Bayes Optimal Prediction: Placed")
+else:
+    print("Bayes Optimal Prediction: Not Placed")
+
+**output**
+Predictions from three rules:
+[1 1 1]
+
+Placement probability: 1.0
+Not-placement probability: 0.0
+Bayes Optimal Prediction: Placed
