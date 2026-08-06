@@ -1,0 +1,22 @@
+**input**
+# Another cell
+# Calculate accuracy of each rule
+rule1_accuracy = np.mean(rule1_prediction == actual)
+rule2_accuracy = np.mean(rule2_prediction == actual)
+rule3_accuracy = np.mean(rule3_prediction == actual)
+
+accuracies = np.array([
+    rule1_accuracy,
+    rule2_accuracy,
+    rule3_accuracy
+])
+
+# Convert accuracies into weights
+weights = accuracies / accuracies.sum()
+
+print("Rule accuracies:", accuracies)
+print("Rule weights:", weights)
+
+**output**
+Rule accuracies: [       0.95        0.95        0.95]
+Rule weights: [    0.33333     0.33333     0.33333]
