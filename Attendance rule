@@ -1,0 +1,33 @@
+**input**
+# Another cell
+
+np.random.seed(42)
+
+rule_names = [
+    "Study-hours rule",
+    "Attendance rule",
+    "Combined rule"
+]
+
+# Randomly select one rule using its weight
+selected_rule_index = np.random.choice(
+    [0, 1, 2],
+    p=weights
+)
+
+selected_rule = rule_names[selected_rule_index]
+
+gibbs_prediction = hypothesis_predictions[
+    selected_rule_index
+]
+
+print("Selected rule:", selected_rule)
+
+if gibbs_prediction == 1:
+    print("Gibbs Prediction: Placed")
+else:
+    print("Gibbs Prediction: Not Placed")
+  
+**    **output**   
+Selected rule: Attendance rule
+Gibbs Prediction: Placed
