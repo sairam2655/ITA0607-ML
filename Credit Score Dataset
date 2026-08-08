@@ -1,0 +1,210 @@
+**input**
+# Credit Score Classification using Machine Learning
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# -------------------------------------------------
+# 1. Create sample credit score dataset
+# -------------------------------------------------
+
+data = {
+    'Age': [22, 25, 30, 35, 40, 45, 50, 55, 28, 32,
+            38, 42, 48, 52, 27, 33, 37, 44, 49, 58],
+
+    'Annual_Income': [25000, 30000, 40000, 50000, 60000,
+                      75000, 90000, 100000, 35000, 45000,
+                      55000, 65000, 80000, 95000, 28000,
+                      42000, 58000, 70000, 85000, 110000],
+
+    'Loan_Amount': [20000, 25000, 30000, 35000, 30000,
+                    25000, 20000, 15000, 40000, 35000,
+                    30000, 25000, 20000, 18000, 45000,
+                    32000, 28000, 22000, 18000, 12000],
+
+    'Credit_History': [1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
+                       1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+
+    'Debt_to_Income': [0.60, 0.55, 0.50, 0.45, 0.40,
+                       0.30, 0.25, 0.20, 0.65, 0.50,
+                       0.42, 0.35, 0.28, 0.22, 0.70,
+                       0.48, 0.38, 0.30, 0.25, 0.18],
+
+    'Credit_Score': [
+        'Poor', 'Poor', 'Standard', 'Standard', 'Standard',
+        'Good', 'Good', 'Good', 'Poor', 'Standard',
+        'Standard', 'Good', 'Good', 'Good', 'Poor',
+        'Standard', 'Standard', 'Good', 'Good', 'Good'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+print("Credit Score Dataset")
+print(df)
+print()
+
+# -------------------------------------------------
+# 2. Separate input and output
+# -------------------------------------------------
+
+X = df.drop('Credit_Score', axis=1)
+y = df['Credit_Score']
+
+# Convert class labels into numbers
+label_encoder = LabelEncoder()
+y = label_encoder.fit_transform(y)
+
+# -------------------------------------------------
+# 3. Split dataset
+# -------------------------------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.30,
+    random_state=42,
+    stratify=y
+)
+
+# -------------------------------------------------
+# 4. Feature Scaling
+# -------------------------------------------------
+
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# -------------------------------------------------
+# 5. Create Random Forest Classifier
+# -------------------------------------------------
+
+model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+
+# Train model
+model.fit(X_train, y_train)
+
+# -------------------------------------------------
+# 6. Make Predictions
+# -------------------------------------------------
+
+y_pred = model.predict(X_test)
+
+# -------------------------------------------------
+# 7. Evaluate Model
+# -------------------------------------------------
+
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Model Performance")
+print("------------------")
+print("Accuracy:", round(accuracy * 100, 2), "%")
+
+print("\nClassification Report:")
+print(classification_report(
+    y_test,
+    y_pred,
+    target_names=label_encoder.classes_
+))
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+# -------------------------------------------------
+# 8. Predict Credit Score for a New Customer
+# -------------------------------------------------
+
+new_customer = [[
+    35,       # Age
+    55000,    # Annual Income
+    30000,    # Loan Amount
+    1,        # Credit History
+    0.40      # Debt-to-Income Ratio
+]]
+
+# Scale new customer data
+new_customer_scaled = scaler.transform(new_customer)
+
+# Predict
+prediction = model.predict(new_customer_scaled)
+
+# Convert numerical prediction back to class name
+credit_score = label_encoder.inverse_transform(prediction)
+
+print("\nNew Customer Prediction")
+print("------------------------")
+print("Predicted Credit Score:", credit_score[0])
+
+**output**
+Credit Score Dataset
+    Age  Annual_Income  Loan_Amount  Credit_History  Debt_to_Income  \
+0    22          25000        20000               1            0.60   
+1    25          30000        25000               1            0.55   
+2    30          40000        30000               1            0.50   
+3    35          50000        35000               1            0.45   
+4    40          60000        30000               1            0.40   
+5    45          75000        25000               1            0.30   
+6    50          90000        20000               1            0.25   
+7    55         100000        15000               1            0.20   
+8    28          35000        40000               0            0.65   
+9    32          45000        35000               1            0.50   
+10   38          55000        30000               1            0.42   
+11   42          65000        25000               1            0.35   
+12   48          80000        20000               1            0.28   
+13   52          95000        18000               1            0.22   
+14   27          28000        45000               0            0.70   
+15   33          42000        32000               1            0.48   
+16   37          58000        28000               1            0.38   
+17   44          70000        22000               1            0.30   
+18   49          85000        18000               1            0.25   
+19   58         110000        12000               1            0.18   
+
+   Credit_Score  
+0          Poor  
+1          Poor  
+2      Standard  
+3      Standard  
+4      Standard  
+5          Good  
+6          Good  
+7          Good  
+8          Poor  
+9      Standard  
+10     Standard  
+11         Good  
+12         Good  
+13         Good  
+14         Poor  
+15     Standard  
+16     Standard  
+17         Good  
+18         Good  
+19         Good  
+
+Model Performance
+------------------
+Accuracy: 100.0 %
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        Good       1.00      1.00      1.00         3
+        Poor       1.00      1.00      1.00         1
+    Standard       1.00      1.00      1.00         2
+
+    accuracy                           1.00         6
+   macro avg       1.00      1.00      1.00         6
+weighted avg       1.00      1.00      1.00         6
+
+Confusion Matrix:
+[[3 0 0]
+ [0 1 0]
+ [0 0 2]]
+
+New Customer Prediction
