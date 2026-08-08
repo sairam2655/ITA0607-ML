@@ -1,0 +1,94 @@
+**input**
+X = [-3, -2, -1, 1, 2, 3]
+
+# Actual answer
+# -1 = CAT
+#  1 = DOG
+y = [-1, -1, -1, 1, 1, 1]
+
+# Initially model knows nothing
+weight = 0
+
+mistakes = 0
+
+print("CAT = -1")
+print("DOG = +1")
+print("--------------------------")
+
+for i in range(len(X)):
+
+    # Model prediction
+    score = weight * X[i]
+
+    if score >= 0:
+        prediction = 1      # DOG
+    else:
+        prediction = -1     # CAT
+
+    # Convert numbers to names
+    actual_name = "DOG" if y[i] == 1 else "CAT"
+    predicted_name = "DOG" if prediction == 1 else "CAT"
+
+    print("\nAnimal", i + 1)
+    print("Actual     :", actual_name)
+    print("Prediction :", predicted_name)
+
+    # Check mistake
+    if prediction != y[i]:
+
+        mistakes += 1
+
+        print(" MISTAKE")
+
+        # Learn from mistake
+        weight = weight + y[i] * X[i]
+
+        print("Model learned! New weight =", weight)
+
+    else:
+        print(" CORRECT")
+
+print("\n========================")
+print("TOTAL MISTAKES =", mistakes)
+print("========================")
+
+
+**output**
+CAT = -1
+DOG = +1
+--------------------------
+
+Animal 1
+Actual     : CAT
+Prediction : DOG
+ MISTAKE
+Model learned! New weight = 3
+
+Animal 2
+Actual     : CAT
+Prediction : CAT
+ CORRECT
+
+Animal 3
+Actual     : CAT
+Prediction : CAT
+ CORRECT
+
+Animal 4
+Actual     : DOG
+Prediction : DOG
+ CORRECT
+
+Animal 5
+Actual     : DOG
+Prediction : DOG
+ CORRECT
+
+Animal 6
+Actual     : DOG
+Prediction : DOG
+ CORRECT
+
+========================
+TOTAL MISTAKES = 1
+========================
