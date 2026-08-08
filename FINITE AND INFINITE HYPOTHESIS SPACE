@@ -41,7 +41,6 @@ examples = [
     72.123,
     72.1234
 ]
-
 for measurement in examples:
     print(measurement, "cm")
 
