@@ -1,0 +1,87 @@
+**input**
+# =====================================================
+# FINITE AND INFINITE HYPOTHESIS SPACE
+# SIMPLE SHIRT EXAMPLE
+# =====================================================
+
+print("========== FINITE HYPOTHESIS SPACE ==========")
+
+# Ready-made shirts
+sizes = ["S", "M", "L", "XL"]
+
+print("Ready-made shirt sizes:", sizes)
+
+print("Total choices:", len(sizes))
+
+customer_choice = "M"
+
+print("Customer selected:", customer_choice)
+
+if customer_choice in sizes:
+    print("Selected shirt is available.")
+
+print("\nFINITE means:")
+print("Only fixed choices are available.")
+print("Hypothesis Space =", sizes)
+
+print("\n\n========== INFINITE HYPOTHESIS SPACE ==========")
+
+print("Now customer wants a CUSTOM-MADE shirt.")
+
+customer_length = 72.35
+
+print("Customer shirt length:", customer_length, "cm")
+
+print("\nPossible custom measurements can be:")
+
+examples = [
+    72,
+    72.1,
+    72.12,
+    72.123,
+    72.1234
+]
+
+for measurement in examples:
+    print(measurement, "cm")
+
+print("\nAnd we can continue:")
+print("72.12345")
+print("72.123456")
+print("72.1234567")
+print("...")
+
+print("\nINFINITE means:")
+print("There is no fixed number of possible measurements.")
+
+**output**
+========== FINITE HYPOTHESIS SPACE ==========
+Ready-made shirt sizes: ['S', 'M', 'L', 'XL']
+Total choices: 4
+Customer selected: M
+Selected shirt is available.
+
+FINITE means:
+Only fixed choices are available.
+Hypothesis Space = ['S', 'M', 'L', 'XL']
+
+
+========== INFINITE HYPOTHESIS SPACE ==========
+Now customer wants a CUSTOM-MADE shirt.
+Customer shirt length: 72.35 cm
+
+Possible custom measurements can be:
+72 cm
+72.1 cm
+72.12 cm
+72.123 cm
+72.1234 cm
+
+And we can continue:
+72.12345
+72.123456
+72.1234567
+...
+
+INFINITE means:
+There is no fixed number of possible measurements.
