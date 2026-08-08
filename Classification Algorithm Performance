@@ -1,0 +1,87 @@
+**input**
+# Compare Different Classification Algorithms
+# Dataset: Iris Dataset
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split dataset into training and testing data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Define classification algorithms
+models = {
+    "Logistic Regression": LogisticRegression(),
+    "Decision Tree": DecisionTreeClassifier(random_state=42),
+    "KNN": KNeighborsClassifier(n_neighbors=5),
+    "SVM": SVC(),
+    "Naive Bayes": GaussianNB(),
+    "Random Forest": RandomForestClassifier(
+        n_estimators=100, random_state=42
+    )
+}
+
+# Evaluate each algorithm
+print("Classification Algorithm Performance")
+print("-" * 75)
+print(f"{'Algorithm':<22} {'Accuracy':<12} {'Precision':<12} "
+      f"{'Recall':<12} {'F1-Score':<12}")
+print("-" * 75)
+
+for name, model in models.items():
+
+    # Train model
+    model.fit(X_train, y_train)
+
+    # Predict test data
+    y_pred = model.predict(X_test)
+
+    # Calculate performance metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(
+        y_test, y_pred, average='weighted'
+    )
+    recall = recall_score(
+        y_test, y_pred, average='weighted'
+    )
+    f1 = f1_score(
+        y_test, y_pred, average='weighted'
+    )
+
+    # Display results
+    print(f"{name:<22} "
+          f"{accuracy:<12.2f} "
+          f"{precision:<12.2f} "
+          f"{recall:<12.2f} "
+          f"{f1:<12.2f}")
+
+**output**
+Classification Algorithm Performance
+---------------------------------------------------------------------------
+Algorithm              Accuracy     Precision    Recall       F1-Score    
+---------------------------------------------------------------------------
+Logistic Regression    1.00         1.00         1.00         1.00        
+Decision Tree          1.00         1.00         1.00         1.00        
+KNN                    1.00         1.00         1.00         1.00        
+SVM                    1.00         1.00         1.00         1.00        
+Naive Bayes            0.98         0.98         0.98         0.98        
+Random Forest          1.00         1.00         1.00         1.00        
