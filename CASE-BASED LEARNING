@@ -1,0 +1,61 @@
+**input**
+# CASE-BASED LEARNING
+
+# Previous cases
+cases = [
+    {"hours": 2, "mark": 45},
+    {"hours": 4, "mark": 60},
+    {"hours": 6, "mark": 75},
+    {"hours": 8, "mark": 88}
+]
+
+# New student
+new_hours = 5.5
+
+# Find the most similar previous case
+best_case = None
+smallest_distance = float("inf")
+
+for case in cases:
+
+    distance = abs(case["hours"] - new_hours)
+
+    print(
+        "Previous Case:",
+        case["hours"],
+        "hours | Distance:",
+        distance
+    )
+
+    if distance < smallest_distance:
+        smallest_distance = distance
+        best_case = case
+
+print("\nNew Student:", new_hours, "hours")
+
+print(
+    "Most Similar Previous Case:",
+    best_case["hours"],
+    "hours"
+)
+
+print(
+    "Previous Student Mark:",
+    best_case["mark"]
+)
+
+print(
+    "Suggested Predicted Mark:",
+    best_case["mark"]
+)
+
+**output**
+Previous Case: 2 hours | Distance: 3.5
+Previous Case: 4 hours | Distance: 1.5
+Previous Case: 6 hours | Distance: 0.5
+Previous Case: 8 hours | Distance: 2.5
+
+New Student: 5.5 hours
+Most Similar Previous Case: 6 hours
+Previous Student Mark: 75
+Suggested Predicted Mark: 75
